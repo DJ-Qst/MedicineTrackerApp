@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
 void main() => runApp(const Home());
+
+/*
+  This file wil only hold the "Home Page" and runApp() command (hopefully)
+*/
+
 /*
   This project will work like this:
   1. Home will be ran and will boot up the appbar, appbar navigation
@@ -29,24 +34,51 @@ class Home extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           title: Center(
-            child: Text("Medicine Tracker"),
+            child: Text(
+                "Medicine Tracker",
+                style: TextStyle(
+                  fontFamily: "SpaceMono",
+                  color: Colors.black,
+                ),
+            ),
           ),
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.red[900],
         ),
         body: Center(
-          child: PersonOrMeds(),
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: 100),
+              DecoratedBox(
+                  decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+                  child: Column(
+                    children: <Widget>[
+                      PersonOrMeds(),
+                      Image.asset("assets/images/tylenol.jpg", height: 200, width: 200,)
+                    ],
+                  )
+              ),
+            ],
+          ),
+          
         ),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.red[900],
           onPressed: () {
 
           },
+          child: Icon(
+              Icons.add,
+              size: 30,
+          ),
         ),
       )
     );
   }
 }
 class PersonOrMeds extends StatelessWidget {
-  /* This will eventually be a clickable card widget that will show the following:
+  /* This will eventually be a clickable card widget that will show the
+     following information:
+
     For a Person:
       - Picture (or initials if a picture isn't provided)
       - Name
@@ -58,7 +90,10 @@ class PersonOrMeds extends StatelessWidget {
       - Name
       - Dosage Size (or a "By Weight" toggle)
       - Time between dosages
-    Each card will have a 3 dots button to edit or delete
+
+    - Each card will have a 3 dots button to edit or delete
+    - The card will be added after the flacbtn is pressed and the form is filled
+    out
    */
   const PersonOrMeds({Key? key}) : super(key: key);
 
@@ -67,11 +102,18 @@ class PersonOrMeds extends StatelessWidget {
     return Container(
       child: Column(
         children: <Widget>[
-          Text("Name"),
+          Text(
+            "Jorden",
+            style: TextStyle(
+              fontFamily: "SpaceMono",
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          ),
           Row(
             children: <Widget>[
-              Text("Number of Meds"),
-              Text("Next Available Dosage"),
+              Text("5 Medications", style: TextStyle(fontFamily: "SpaceMono"),),
+              Text("8:00 p.m.", style: TextStyle(fontFamily: "SpaceMono"),),
             ],
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           ),

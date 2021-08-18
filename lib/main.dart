@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-void main() => runApp(const Home());
+import 'medicine_page.dart';
 
 /*
   This file wil only hold the "Home Page" and runApp() command (hopefully)
@@ -21,60 +20,54 @@ void main() => runApp(const Home());
   8. The form will return data that is used to create the card
 */
 
-class Home extends StatelessWidget {
-  /* -This will be the home page with a "Medicine Tracker" Appbar that has two
-      sliding options in the app bar "Medicines" and "People"
-     - Both pages will have a floating action button to add their data
+void main() => runApp(HomePage(medicinePage: MedicinePage(
+  medicines: [
+    MedicineCard(name: "Tylenol", dosage: "2 pills", separation: "6 hr"),
+    MedicineCard(name: 'Ibuprofen', dosage: "2 Pills", separation: "6 hr"),
+    MedicineCard(name: "NyQuil", dosage: "30 ml", separation: "4 hr")
+  ],
+  ))
+);
+
+class HomePage extends StatelessWidget {
+  /*
+  This class is the app structure, it takes arguments for the bodies of each
+  page (eventually)
    */
-  const Home({Key? key}) : super(key: key);
+  const HomePage({
+    Key? key,
+    required this.medicinePage
+  }) : super(key: key);
+
+  final medicinePage;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Center(
-            child: Text(
-                "Medicine Tracker",
-                style: TextStyle(
-                  fontFamily: "SpaceMono",
-                  color: Colors.black,
-                ),
+      home: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text("Medicine Tracker"),
+            bottom: const TabBar(
+              tabs: [
+                Tab(icon: Icon(Icons.local_hospital_outlined)),
+                Tab(icon: Icon(Icons.accessibility)),
+              ],
             ),
           ),
-          backgroundColor: Colors.red[900],
-        ),
-        body: Center(
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: 100),
-              DecoratedBox(
-                  decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-                  child: Column(
-                    children: <Widget>[
-                      PersonOrMeds(),
-                      Image.asset("assets/images/tylenol.jpg", height: 200, width: 200,)
-                    ],
-                  )
-              ),
+          body: TabBarView(
+            children: [
+              medicinePage,
+              Icon(Icons.accessibility)
             ],
           ),
-          
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.red[900],
-          onPressed: () {
-
-          },
-          child: Icon(
-              Icons.add,
-              size: 30,
-          ),
-        ),
-      )
+      ),
     );
   }
 }
+
 class PersonOrMeds extends StatelessWidget {
   /* This will eventually be a clickable card widget that will show the
      following information:

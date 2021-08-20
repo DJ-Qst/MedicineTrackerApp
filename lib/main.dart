@@ -20,131 +20,67 @@ import 'medicine_page.dart';
   8. The form will return data that is used to create the card
 */
 
-void main() => runApp(HomePage(medicinePage: MedicinePage(
-  medicines: [
-    MedicineCard(name: "Tylenol", dosage: "2 pills", separation: "6 hr"),
-    MedicineCard(name: 'Ibuprofen', dosage: "2 Pills", separation: "6 hr"),
-    MedicineCard(name: "NyQuil", dosage: "30 ml", separation: "4 hr")
-  ],
-  ))
-);
+void main() => runApp(Structure(
+  medsList: [
+    {"name":"Tylenol", "dosage":"2 Pills", "separation":"6 hr", "alive": true},
+    {"name":"Ibuprofin", "dosage":"2 Pills", "separation":"6 hr", "alive": true},
+    {"name":"NyQuil", "dosage":"30 ml", "separation":"4 hr", "alive": true},
+  ]
 
-class HomePage extends StatelessWidget {
-  /*
-  This class is the app structure, it takes arguments for the bodies of each
-  page (eventually)
-   */
-  const HomePage({
-    Key? key,
-    required this.medicinePage
-  }) : super(key: key);
+));
 
-  final medicinePage;
+class Structure extends StatefulWidget {
+  const Structure({Key? key, required this.medsList}) : super(key: key);
+
+  final List<Map> medsList;
+
+  @override
+  _StructureState createState() => _StructureState(meds: medsList);
+}
+
+class _StructureState extends State<Structure> {
+  List<Map> meds;
+  _StructureState({required this.meds});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // TODO: Make a theme for the app
+      // theme: ThemeData(),
       home: DefaultTabController(
+        // This TabController is voodoo magic that makes the tabBar work
         length: 2,
         child: Scaffold(
+          // Scaffold holds the app with the appBar, tabBar, Body, and FAB
           appBar: AppBar(
             title: Text("Medicine Tracker"),
             bottom: const TabBar(
+              // At the bottom of the AppBar there is two icons showing the tabs of the app, very positional
               tabs: [
-                Tab(icon: Icon(Icons.local_hospital_outlined)),
-                Tab(icon: Icon(Icons.accessibility)),
+                Tab(icon: Icon(Icons.local_hospital_outlined)), // Medicine Tab
+                Tab(icon: Icon(Icons.accessibility)), // People Tab
               ],
             ),
           ),
+
           body: TabBarView(
+            // The Pages for each of the tabs, also very positional
             children: [
-              medicinePage,
-              Icon(Icons.accessibility)
-            ],
+              MedicinePage(medicines: meds), // Medicine Tab
+              Icon(Icons.accessibility)]  // People Tab
+          ),
+
+          // TODO: Make FAB give options for which form to pick
+          floatingActionButton: FloatingActionButton(
+            // Floating action button that will give the options for creating medicine or people
+            onPressed: () => setState(() {
+              meds.add({"name": "Aleve", "dosage": "1 Pill", "separation": "12 hr", "alive": true});
+              print("Number of Medicines: ${meds.length}");
+          }),
+            child: Icon(Icons.add),
           ),
         ),
       ),
     );
   }
 }
-
-class PersonOrMeds extends StatelessWidget {
-  /* This will eventually be a clickable card widget that will show the
-     following information:
-
-    For a Person:
-      - Picture (or initials if a picture isn't provided)
-      - Name
-      - How many meds they have
-      - When the next time a dosage is
-
-    For a Medicine:
-      - Picture (or initials if a picture isn't provided)
-      - Name
-      - Dosage Size (or a "By Weight" toggle)
-      - Time between dosages
-
-    - Each card will have a 3 dots button to edit or delete
-    - The card will be added after the flacbtn is pressed and the form is filled
-    out
-   */
-  const PersonOrMeds({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Text(
-            "Jorden",
-            style: TextStyle(
-              fontFamily: "SpaceMono",
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-          ),
-          Row(
-            children: <Widget>[
-              Text("5 Medications", style: TextStyle(fontFamily: "SpaceMono"),),
-              Text("8:00 p.m.", style: TextStyle(fontFamily: "SpaceMono"),),
-            ],
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class DetPerson extends StatelessWidget {
-  /* This will probably be a stateful widget and will show the following
-     information when a persons name is clicked in the home screen:
-      - It will have an app bar with the persons name and a navigation arrow
-      - Age, Sex, and Weight on one card
-      - Each medication they have added to them on individual cards
-        - Any medication dosage size can be modified, and a "By Weight"
-          dosage will be required to have a specified dosage
-      - Each card will have a 3 dots button to bring up edit and delete options
-   */
-  const DetPerson({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
-class DetMeds extends StatelessWidget {
-  /* This will show what medicines are in the medicine and if they "by weight"
-     toggle is switched, a sliding dosage scale.
-   */
-  const DetMeds({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
-
-

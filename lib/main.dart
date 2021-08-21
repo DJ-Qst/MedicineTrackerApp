@@ -22,9 +22,9 @@ import 'medicine_page.dart';
 
 void main() => runApp(Structure(
   medsList: [
-    {"name":"Tylenol", "dosage":"2 Pills", "separation":"6 hr", "alive": true},
-    {"name":"Ibuprofin", "dosage":"2 Pills", "separation":"6 hr", "alive": true},
-    {"name":"NyQuil", "dosage":"30 ml", "separation":"4 hr", "alive": true},
+    {"name":"Tylenol", "dosage":"2 Pills", "separation":"6 hr"},
+    {"name":"Ibuprofin", "dosage":"2 Pills", "separation":"6 hr"},
+    {"name":"NyQuil", "dosage":"30 ml", "separation":"4 hr"},
   ]
 
 ));

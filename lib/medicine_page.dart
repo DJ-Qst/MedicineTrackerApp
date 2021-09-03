@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 
 /*
-
-This file will host all of the following:
-
-  - the Medicine Page Scaffold including the body and floating action button
-  - All of the Cards
-  - The card building class
-  - The page opened when a medicine card is clicked (Detailed Medicine)
-
- */
-/*void main() => runApp(MedicinePage(medicines: [
+// Function for testing in this file alone
+void main() => runApp(MedicinePage(medicines: [
   MedicineCard(name: "Tylenol", dosage: "2 pills", separation: "6 hr"),
   MedicineCard(name: 'Ibuprofen', dosage: "2 Pills", separation: "6 hr"),
   MedicineCard(name: "NyQuil", dosage: "30 ml", separation: "4 hr")]));
 */
 
+/*
+    This is the medicine page, it returns a listview.builder and is the body of
+    the scaffold on the main page. It is the list of all of the medicines.
+
+    This page updates in two different ways:
+      1. when the whole page is rebuilt from the main after the FAB adds a card
+      2. When the ListView is updated on a card deletion or card changing
+     */
+
 class MedicinePage extends StatefulWidget {
-  // Should be a list of dictionaries with a name, dosage, separation, and alive
+  // Should be a list of dictionaries with a name, dosage and separation
   const MedicinePage({Key? key, required this.medicines}) : super(key: key);
 
   final List<Map> medicines;
@@ -34,27 +35,23 @@ class _MedicinePage extends State<MedicinePage> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        itemCount: _meds.length,
+        itemCount: _meds.length,  // How long the list is, IDK what its for
         itemBuilder: (BuildContext context, int index) {
+          // The itemBuilder takes each Map item and turns it into a card
           return Card(
             child: ListTile(
-                leading: Icon(Icons.favorite),
+                // ListTile makes cards look good
+                leading: Icon(Icons.favorite), // This will be the medicine picture (if provided)
                 title: Text(_meds[index]["name"]),
                 subtitle: Text(
                     "Dosage size: ${_meds[index]["dosage"]}\nTime Between Doses: ${_meds[index]["separation"]}"),
                 // TODO: Write function that opens card for editing medicine
-                onTap: () {},
+                onTap: () {print("Opening the ${_meds[index]["name"]} at index $index for editing");},
                 trailing: PopupMenuButton(
-                  onSelected: (value){
-                    switch (value){
-                      case "delete":
-                        setState(() {
-                          _meds.removeAt(index);
-                          print("Number of Medicines: ${_meds.length}");
-                        });
-                        break;
-                    }
-                  },
+                  // This is the three dot button that will give the delete option, and potentially a specific edit button
+
+                  // The itemBuilder makes buttons for each option I give
+                  // When an option is selected the "Value" parameter is returned
                   itemBuilder: (BuildContext context) =>
                   <PopupMenuEntry>[
                     PopupMenuItem(
@@ -64,6 +61,20 @@ class _MedicinePage extends State<MedicinePage> {
                           style: TextStyle(color: Colors.red),
                         ))
                   ],
+
+                  // This runs when a value gets returned, and each button has
+                  // its own switch case so the correct state can be set
+                  onSelected: (value){
+                    switch (value){
+                      case "delete":
+                        setState(() {
+                          print("Deleted ${_meds[index]["name"]} at index: $index."
+                                " There are ${_meds.length-1} medicine(s) left");
+                          _meds.removeAt(index);
+                        });
+                        break;
+                    }
+                  },
                 )
             ),
           );

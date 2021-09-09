@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'medicine_page.dart';
+import 'sub_pages.dart';
 
 /*
 How it works:
@@ -8,11 +9,15 @@ How it works:
   - If I call set state on either, it rebuilds the app to look properly
  */
 
-void main() => runApp(App(medsList: [
-      {"name": "Tylenol", "dosage": "2 Pills", "separation": "6 hr"},
-      {"name": "Ibuprofin", "dosage": "2 Pills", "separation": "6 hr"},
-      {"name": "NyQuil", "dosage": "30 ml", "separation": "4 hr"},
-    ]));
+void main() => runApp(MaterialApp(
+  //TODO: Make a theme for the app
+  // theme: ThemeData()
+  home: App(medsList: [
+    {"name": "Tylenol", "dosage": "2 Pills", "separation": "6 hr"},
+    {"name": "Ibuprofin", "dosage": "2 Pills", "separation": "6 hr"},
+    {"name": "NyQuil", "dosage": "30 ml", "separation": "4 hr"},
+  ]),
+));
 
 // TODO: Read and Write list of Maps to a file for saving and loading medicines
 
@@ -31,10 +36,7 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      // TODO: Make a theme for the app
-      // theme: ThemeData(),
-      home: DefaultTabController(
+    return DefaultTabController(
         // This TabController is voodoo magic that makes the tabBar work
         length: 2,
         child: Scaffold(
@@ -71,6 +73,9 @@ class _AppState extends State<App> {
           floatingActionButton: FloatingActionButton(
             // Floating action button that will give the options for creating medicine or people
             onPressed: () => setState(() {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return SettingsPage();
+              }));
               meds.add({
                 "name": "Aleve",
                 "dosage": "1 Pill",
@@ -82,7 +87,6 @@ class _AppState extends State<App> {
             child: Icon(Icons.add),
           ),
         ),
-      ),
-    );
+      );
   }
 }

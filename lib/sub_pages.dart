@@ -24,3 +24,35 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 }
+
+class MedicineForm extends StatelessWidget {
+  const MedicineForm({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Add New Medicine"),
+      ),
+      body: Center(
+        child: Text("Form Page to Add a New Medicine"),
+      ),
+    );
+  }
+}
+
+class PersonForm extends StatelessWidget {
+  const PersonForm({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Add New Person"),
+      ),
+      body: Center(
+        child: Text("Form Page to Add a New Person"),
+      ),
+    );
+  }
+}

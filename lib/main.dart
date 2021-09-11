@@ -1,6 +1,9 @@
-import 'package:flutter/material.dart';
+// Different Pages
 import 'medicine_page.dart';
 import 'sub_pages.dart';
+
+// Dependencies
+import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 /*
@@ -50,7 +53,10 @@ class _AppState extends State<App> {
             // Settings Page button
             IconButton(
               onPressed: () {
-                print("Settings Button Clicked!");
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("Settings Button Clicked!"),
+                  duration: Duration(seconds: 1),
+                ));
               },
               icon: Icon(Icons.settings),
               tooltip: "Open Settings",
@@ -74,21 +80,19 @@ class _AppState extends State<App> {
             ),
 
         floatingActionButton: SpeedDial(
-          spacing: 3,
           icon: Icons.add,
           activeIcon: Icons.close,
           overlayOpacity: 0,
           curve: Curves.easeIn,
           children: [
             SpeedDialChild(
-              child: Icon(Icons.person_add),
-              label: "Add Person",
+                child: Icon(Icons.person_add),
+                label: "Add Person",
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return PersonForm();
                   }));
-                }
-            ),
+                }),
             SpeedDialChild(
                 child: Icon(Icons.healing),
                 label: "Add Medicine",
@@ -99,23 +103,6 @@ class _AppState extends State<App> {
                 }),
           ],
         ),
-
-        /*FloatingActionButton(
-            // Floating action button that will give the options for creating medicine or people
-            onPressed: () => setState(() {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return SettingsPage();
-              }));
-              meds.add({
-                "name": "Aleve",
-                "dosage": "1 Pill",
-                "separation": "12 hr",
-                "alive": true
-              });
-              print("Number of Medicines: ${meds.length}");
-            }),
-            child: Icon(Icons.add),
-          ),*/
       ),
     );
   }

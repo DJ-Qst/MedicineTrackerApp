@@ -35,25 +35,31 @@ class _MedicinePage extends State<MedicinePage> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        itemCount: _meds.length,  // How long the list is, IDK what its for
+        itemCount: _meds.length, // How long the list is, IDK what its for
         itemBuilder: (BuildContext context, int index) {
           // The itemBuilder takes each Map item and turns it into a card
           return Card(
             child: ListTile(
                 // ListTile makes cards look good
-                leading: Icon(Icons.favorite), // This will be the medicine picture (if provided)
+                leading: Icon(Icons
+                    .favorite), // This will be the medicine picture (if provided)
                 title: Text(_meds[index]["name"]),
                 subtitle: Text(
                     "Dosage size: ${_meds[index]["dosage"]}\nTime Between Doses: ${_meds[index]["separation"]}"),
                 // TODO: Write function that opens card for editing medicine
-                onTap: () {print("Opening the ${_meds[index]["name"]} at index $index for editing");},
+                onTap: () {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                        "Opening the ${_meds[index]["name"]} at index $index for editing"),
+                    duration: Duration(seconds: 1),
+                  ));
+                },
                 trailing: PopupMenuButton(
                   // This is the three dot button that will give the delete option, and potentially a specific edit button
 
                   // The itemBuilder makes buttons for each option I give
                   // When an option is selected the "Value" parameter is returned
-                  itemBuilder: (BuildContext context) =>
-                  <PopupMenuEntry>[
+                  itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                     PopupMenuItem(
                         value: "delete",
                         child: Text(
@@ -64,22 +70,25 @@ class _MedicinePage extends State<MedicinePage> {
 
                   // This runs when a value gets returned, and each button has
                   // its own switch case so the correct state can be set
-                  onSelected: (value){
-                    switch (value){
+                  onSelected: (value) {
+                    switch (value) {
                       case "delete":
                         setState(() {
-                          print("Deleted ${_meds[index]["name"]} at index: $index."
-                                " There are ${_meds.length-1} medicine(s) left");
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                  "Deleted ${_meds[index]["name"]}. There are ${_meds.length - 1} medicine(s) left"),
+                              duration: Duration(seconds: 1),
+                            ),
+                          );
                           _meds.removeAt(index);
                         });
                         break;
                     }
                   },
-                )
-            ),
+                )),
           );
-        }
-    );
+        });
   }
 }
 
